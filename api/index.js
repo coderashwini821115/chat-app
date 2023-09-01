@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser')
 const bcrypt = require('bcrypt');
 const ws = require('ws');
 const fs = require('fs');
+const PORT = process.env.PORT || 8080;
 const {
     connect
 } = require('mongoose');
@@ -129,7 +130,7 @@ app.post('/register', async (req, res) => {
         console.log(e.message);
     }
 });
-const server = app.listen(8080);
+const server = app.listen(PORT);
 
 const wss = new ws.WebSocketServer({
     server
