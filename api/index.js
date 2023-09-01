@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const ws = require('ws');
 const fs = require('fs');
 const PORT = process.env.PORT || 8080;
+const host_url = process.env.HOST_URL;
 const {
     connect
 } = require('mongoose');
@@ -21,7 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:5173',
+    origin: host_url,
 }));
 
 
