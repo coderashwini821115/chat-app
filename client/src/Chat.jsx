@@ -15,7 +15,7 @@ const Chat = () => {
     const [offlinePeople, setOfflinePeople] = useState({});
     const divUnderMessages = useRef();
     useEffect(() => {
-        const ws = new WebSocket('ws://localhost:8080')
+        const ws = new WebSocket('wss://chat-app-7h0f.onrender.com')
         setWs(ws);
         ws.addEventListener('message', handleMessage);
     }, []);
@@ -24,7 +24,7 @@ const Chat = () => {
         connectToWs();
     }, []);
     function connectToWs() {
-        const ws = new WebSocket('ws://localhost:8080')
+        const ws = new WebSocket('wss://chat-app-7h0f.onrender.com')
         setWs(ws);
         ws.addEventListener('message', handleMessage);
         ws.addEventListener('close', () => {
