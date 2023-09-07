@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt');
 const ws = require('ws');
 const fs = require('fs');
 const PORT = process.env.PORT || 8080;
-const host_url = "https://64f8dbf014d20411e7a92043--incandescent-strudel-90fecf.netlify.app/";
+const host_url = "https://64f8dbf014d20411e7a92043--incandescent-strudel-90fecf.netlify.app";
 const {
     connect
 } = require('mongoose');
