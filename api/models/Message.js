@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
-mongoose.connect("mongodb://127.0.0.1:27017", {
+const DB = 'mongodb+srv://pandeyash27:GkgHgurDKoxOwGva@cluster0.xkmpvwp.mongodb.net/?retryWrites=true&w=majority';
+mongoose.connect(DB, {
     dbName: "Backend",
 }).then(() => console.log("Message Database connected"));
 const schema = new mongoose.Schema({

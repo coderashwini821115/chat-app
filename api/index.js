@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt');
 const ws = require('ws');
 const fs = require('fs');
 const PORT =  8080;
-const host_url = "http://localhost:5173";
+const host_url = process.env.HOST_URL;
 const {
     connect
 } = require('mongoose');

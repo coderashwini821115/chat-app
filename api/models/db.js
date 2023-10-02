@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-
-mongoose.connect("mongodb://127.0.0.1:27017", {
+const DB = 'mongodb+srv://pandeyash27:GkgHgurDKoxOwGva@cluster0.xkmpvwp.mongodb.net/?retryWrites=true&w=majority';
+mongoose.connect(DB, {
     dbName: "Backend",
-}).then(() => console.log("Database connected"));
+}).then(() => console.log("Database connected"))
+.catch((e) => console.log('no connection'));
 const schema = new mongoose.Schema({
     username: {type: String, unique: true, sparse: true},
     password: String,
