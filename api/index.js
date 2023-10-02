@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser')
 const bcrypt = require('bcrypt');
 const ws = require('ws');
 const fs = require('fs');
-const PORT =  8080;
+const PORT =  process.env.PORT || 8080;
 const host_url = process.env.HOST_URL;
 const {
     connect
