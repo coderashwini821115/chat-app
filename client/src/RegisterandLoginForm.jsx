@@ -12,6 +12,9 @@ export default function RegisterandLoginForm() {
         const url = isLogin ? 'login': 'register';
         try {
             const { data } = await axios.post(url, { username, password });
+            if(data.id === null) {
+                alert('Invalid Username or password');
+            }
             setLoggedUsername(username);
             setId(data.id);
         } catch (e) {
