@@ -183,42 +183,41 @@ wss.on('connection', (connection, req) => {
             }
         }
     }
-    connection.on('message', async(message) => {
+    connection.on('message', async (message) => {
         const messageData = JSON.parse(message.toString());
         const {recipient, text, file} = messageData;
-        // console.log(messageData);
-        // console.log({recipient, text, file});
         let filename = null;
-        if(file) {
-            const part = file.name.split('.');
-            const ext = part[part.length-1];
-            filename = Date.now() + '.' + ext;
-            const path = path.join(__dirname, 'uploads', filename);
-            // console.log(file.data.split(',')[1]);
-            // console.log(file);
-            const bufferData =  Buffer.from(file.data.split(',')[1], 'base64');
-            fs.writeFile(path, bufferData, () => {
-                console.log('file saved:'+path);
-            })
+        if (file) {
+          console.log('size', file.data.length);
+          const parts = file.name.split('.');
+          const ext = parts[parts.length - 1];
+          filename = Date.now() + '.'+ext;
+          const path = __dirname + '/uploads/' + filename;
+          const bufferData = new Buffer(file.data.split(',')[1], 'base64');
+          fs.writeFile(path, bufferData, () => {
+            console.log('file saved:'+path);
+          });
         }
-        if(recipient && (text || file)) {
-            const messageDoc = await Message.create({
-                sender: connection.userId,
-                recipient,
-                text,
-                file: file? filename: null,
-            });
-            [...wss.clients].
-            filter(c => c.userId === recipient)
+        if (recipient && (text || file)) {
+          const messageDoc = await Message.create({
+            sender:connection.userId,
+            recipient,
+            text,
+            file: file ? filename : null,
+          });
+          console.log('created message');
+          [...wss.clients]
+            .filter(c => c.userId === recipient)
             .forEach(c => c.send(JSON.stringify({
-                text, 
-                sender: connection.userId,
-                recipient,
-                file: file ? filename: null,
-            _id: messageDoc._id})));
+              text,
+              sender:connection.userId,
+              recipient,
+              file: file ? filename : null,
+              _id:messageDoc._id,
+            })));
         }
+      });
+    
+      // notify everyone about online people (when someone connects)
+      notifyAboutOnlinePeople();
     });
-    //notify everyone about online people
-   notifyAboutOnlinePeople();
-});
-// OzinT2szfPVdM8aT
