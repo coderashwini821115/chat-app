@@ -55,6 +55,7 @@ export default function Chat() {
     });
   }
   function sendMessage(ev, file = null) {
+    console.log('here');
     if (ev) ev.preventDefault();
     ws.send(JSON.stringify({
       recipient: selectedUserId,
@@ -62,6 +63,7 @@ export default function Chat() {
       file,
     }));
     if (file) {
+      console.log('runned');
       axios.get('/messages/'+selectedUserId).then(res => {
         setMessages(res.data);
       });
@@ -75,12 +77,14 @@ export default function Chat() {
       }]));
     }
   }
-  function sendFile(ev) {
+  function sendFile(file) {
+    console.log('sendFile called with file:', file); // Debugging line
     const reader = new FileReader();
-    reader.readAsDataURL(ev.target.files[0]);
+    reader.readAsDataURL(file);
     reader.onload = () => {
+      console.log('File read successfully'); // Debugging line
       sendMessage(null, {
-        name: ev.target.files[0].name,
+        name: file.name,
         data: reader.result,
       });
     };
@@ -169,7 +173,6 @@ export default function Chat() {
                   <div key={message._id} className={(message.sender === id ? 'text-right': 'text-left')}>
                     <div className={"text-left inline-block p-2 my-2 rounded-md text-sm " +(message.sender === id ? 'bg-blue-500 text-white':'bg-white text-gray-500')}>
                       {message.text}
-                      {/* {console.log({message})} */}
                       {message.file && (
                         <div className="">
                           <a target="_blank" className="flex items-center gap-1 border-b" href={axios.defaults.baseURL + '/uploads/' + message.file}>
@@ -177,7 +180,6 @@ export default function Chat() {
                               <path fillRule="evenodd" d="M18.97 3.659a2.25 2.25 0 00-3.182 0l-10.94 10.94a3.75 3.75 0 105.304 5.303l7.693-7.693a.75.75 0 011.06 1.06l-7.693 7.693a5.25 5.25 0 11-7.424-7.424l10.939-10.94a3.75 3.75 0 115.303 5.304L9.097 18.835l-.008.008-.007.007-.002.002-.003.002A2.25 2.25 0 015.91 15.66l7.81-7.81a.75.75 0 011.061 1.06l-7.81 7.81a.75.75 0 001.054 1.068L18.97 6.84a2.25 2.25 0 000-3.182z" clipRule="evenodd" />
                             </svg>
                             {message.file}
-                            
                           </a>
                         </div>
                       )}
@@ -197,7 +199,7 @@ export default function Chat() {
                    placeholder="Type your message here"
                    className="bg-white flex-grow border rounded-sm p-2"/>
             <label className="bg-blue-200 p-2 text-gray-600 cursor-pointer rounded-sm border border-blue-200">
-              <input type="file" className="hidden" onChange={sendFile} />
+            <input type="file" className="hidden" onChange={(ev) => sendFile(ev.target.files[0])} />
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                 <path fillRule="evenodd" d="M18.97 3.659a2.25 2.25 0 00-3.182 0l-10.94 10.94a3.75 3.75 0 105.304 5.303l7.693-7.693a.75.75 0 011.06 1.06l-7.693 7.693a5.25 5.25 0 11-7.424-7.424l10.939-10.94a3.75 3.75 0 115.303 5.304L9.097 18.835l-.008.008-.007.007-.002.002-.003.002A2.25 2.25 0 015.91 15.66l7.81-7.81a.75.75 0 011.061 1.06l-7.81 7.81a.75.75 0 001.054 1.068L18.97 6.84a2.25 2.25 0 000-3.182z" clipRule="evenodd" />
               </svg>
