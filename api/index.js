@@ -193,7 +193,7 @@ wss.on('connection', (connection, req) => {
             const part = file.name.split('.');
             const ext = part[part.length-1];
             filename = Date.now() + '.' + ext;
-            const pathToUploads = path.join(__dirname, 'uploads', filename);
+            const path = path.join(__dirname, 'uploads', filename);
             // console.log(file.data.split(',')[1]);
             // console.log(file);
             const bufferData =  Buffer.from(file.data.split(',')[1], 'base64');
